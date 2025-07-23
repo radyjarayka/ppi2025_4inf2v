@@ -1,13 +1,31 @@
+import { useState } from "react";
 import styles from "./Product.module.css";
 
-export function Product({ thumbnail, title, description, price }) {
+export function Product({ product, addToCart }) {
+  const [clicked, setClicked] = useState(false);
+
+  function handleClick() {
+    setClicked(true);
+    addToCart(product);
+    setTimeout(() => setClicked(false), 200);
+  }
+
   return (
-    <div className={styles.card}>
-      <img src={thumbnail} alt={title} className={styles.image} />
-      <h2>{title}</h2>
-      <p>{description}</p>
-      <p>R$ {price}</p>
-      <button>Adicionar produto ao🛒</button>
+    <div key={product.id} className={styles.productCard}>
+      <img
+        src={product.thumbnail}
+        alt={product.title}
+        className={styles.productImage}
+      />
+      <h2 className={styles.productTitle}>{product.title}</h2>
+      <p className={styles.productDescription}>{product.description}</p>
+      <p className={styles.productPrice}>${product.price}</p>
+      <button
+        onClick={handleClick}
+        className={`${styles.productButton} ${clicked ? styles.clicked : ""}`}
+      >
+        Adicionar ao carrinho
+      </button>
     </div>
   );
 }
