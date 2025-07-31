@@ -4,13 +4,14 @@ import { CircularProgress } from "@mui/material";
 import { Product } from "./Product";
 
 export function ProductList({ addToCart }) {
-  var category = "smartphones";
-  var limit = 10;
-  var apiUrl = `https://dummyjson.com/products/category/${category}?limit=${limit}&select=id,thumbnail,title,price,description`;
+  const category = "smartphones";
+  const limit = 10;
+  const apiUrl = `https://dummyjson.com/products/category/${category}?limit=${limit}&select=id,thumbnail,title,price,description`;
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     async function fetchProducts() {
@@ -27,10 +28,30 @@ export function ProductList({ addToCart }) {
     fetchProducts();
   }, []);
 
+  // Filtro em tempo real
+  const filteredProducts = products.filter((product) =>
+    product.title.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div className={styles.container}>
+      <div style={{ textAlign: "center", margin: "1rem 0" }}>
+        <input
+          type="text"
+          placeholder="Buscar produto..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          style={{ padding: "0.5rem", fontSize: "1.4rem" }}
+        />
+        <button
+          onClick={() => setSearch("")}
+          style={{ marginLeft: "0.5rem", padding: "0.5rem 1rem" }}
+        >
+          Limpar
+        </button>
+      </div>
       <div className={styles.productList}>
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <Product key={product.id} product={product} addToCart={addToCart} />
         ))}
       </div>
@@ -41,10 +62,10 @@ export function ProductList({ addToCart }) {
             style={{ margin: "2rem auto", display: "block" }}
             sx={{ color: "#001111" }}
           />
-          <p>Loading products...</p>
+          <p>Carregando produtos...</p>
         </div>
       )}
-      {error && <p>Error loading products: {error.message} ❌</p>}
+      {error && <p>Erro ao carregar produtos: {error.message} ❌</p>}
     </div>
   );
 }

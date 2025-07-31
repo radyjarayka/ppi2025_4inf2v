@@ -31,3 +31,32 @@
   text-decoration: none;
   color: var(--primary);
 }
+
+.cartIconWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.cartBadge {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  background: #ff7904;
+  color: #fff;
+  border-radius: 50%;
+  padding: 0.2em 0.7em;
+  font-size: 1.3rem;
+  font-weight: bold;
+  z-index: 1;
+  min-width: 1.5em;
+  text-align: center;
+  box-shadow: 0 0 2px #0005;
+}
+
+.cartText {
+  margin-left: 12px;
+}
+
+.cartTotal {
+  font-size: 1.5rem;
+}
